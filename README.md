@@ -42,7 +42,7 @@ So BITSM is **AI-native, highly agentic, and adaptable**:
   Every tenant configures its own modules, fields, categories, RBAC permissions,
   and workflows.
 
-A major shout-out to **Ed Donner** — his courses on agentic AI and LLM
+A major shout-out to **[Ed Donner](https://www.linkedin.com/in/eddonner/)** — his courses on agentic AI and LLM
 engineering shaped how I think about tool-use loops, RAG retrieval, and the gap
 between "AI demo" and "AI that actually works in production." A lot of what's in
 Atlas exists because of patterns I learned from him.
