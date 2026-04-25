@@ -13,6 +13,42 @@
 
 ---
 
+## Why I built this
+
+Honestly? I got tired.
+
+Tired of combing through poorly-filled-in tickets to produce reports that should
+have been automatic. Tired of reminding teams that the priority was wrong, the
+category was blank, the field never got populated. Tired of watching managers
+burn cycles on data hygiene instead of running their teams. The usual fix — hire
+someone to keep the basics in order — is a band-aid that doesn't scale and
+doesn't change the underlying problem.
+
+Helpdesk software has stayed roughly the same shape for fifteen years: a form, a
+queue, a status, a thread. The grunt work — tagging, routing, categorizing,
+escalating, summarizing, closing duplicates, drafting follow-ups — is the
+low-hanging fruit AI is actually good at. That's the gap BITSM was built to
+close.
+
+So BITSM is **AI-native, highly agentic, and adaptable**:
+
+- **AI-native** — Atlas (the AI engine) isn't a feature bolted on. Auto-engagement,
+  routing, custom-field inference, knowledge-base search, and escalation are
+  first-class behaviors, not optional toggles.
+- **Highly agentic** — Atlas runs a tool-use loop: searches, fetches, evaluates,
+  decides, acts. It writes back to tickets, hands off to humans when it should,
+  and stays passive when a human is already on it.
+- **Adaptable** — multi-tenant from day one. BYOK for every external provider.
+  Every tenant configures its own modules, fields, categories, RBAC permissions,
+  and workflows.
+
+A major shout-out to **Ed Donner** — his courses on agentic AI and LLM
+engineering shaped how I think about tool-use loops, RAG retrieval, and the gap
+between "AI demo" and "AI that actually works in production." A lot of what's in
+Atlas exists because of patterns I learned from him.
+
+---
+
 ## What it does
 
 - **Multi-tenant helpdesk** — tickets, SLAs, comments, attachments, locations,
