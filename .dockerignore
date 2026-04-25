@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+.idea/
+img_*.png
+carrot/
+stress_test*.py
+run_tests.py
+node_modules/
+webapp/node_modules/
+.env

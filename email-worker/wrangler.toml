@@ -1,0 +1,14 @@
+# Cloudflare Worker config for inbound email processing.
+# account_id below is deployment-specific — update for your Cloudflare account.
+
+name = "helpdesk-email-worker"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+account_id = "your-cloudflare-account-id-here"
+
+[vars]
+HELPDESK_URL = "https://bitsm.io"
+
+# Deploy secrets (never commit):
+#   wrangler secret put WEBHOOK_SECRET

@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+{% block title %}Data Processing Agreement — {{ product }}{% endblock %}
+{% block head %}
+<style>
+.legal-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    color: var(--t-text);
+}
+.legal-header {
+    border-bottom: 1px solid var(--t-border);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+.legal-header .product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t-accent-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+.legal-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--t-text-bright);
+    margin-bottom: 8px;
+}
+.legal-header .effective-date {
+    font-size: 13px;
+    color: var(--t-text-muted);
+}
+.legal-draft-banner {
+    background: rgba(245,158,11,0.10);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    font-size: 12px;
+    color: var(--t-warning);
+    line-height: 1.6;
+}
+h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--t-text-bright);
+    margin: 32px 0 12px;
+}
+h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t-text);
+    margin: 20px 0 8px;
+}
+p, li {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--t-text);
+    margin-bottom: 10px;
+}
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+}
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+}
+.legal-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--t-panel-alt);
+    color: var(--t-text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--t-border);
+}
+.legal-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--t-border);
+    color: var(--t-text);
+    vertical-align: top;
+}
+.legal-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.legal-nav a {
+    font-size: 12px;
+    color: var(--t-text-muted);
+    text-decoration: none;
+    padding: 4px 8px;
+    border: 1px solid var(--t-border);
+    border-radius: var(--radius-xs);
+}
+.legal-nav a:hover { color: var(--t-text); border-color: var(--t-border-light); }
+.legal-nav a.active { color: var(--t-accent-text); border-color: var(--t-accent-border); }
+.annex-box {
+    background: var(--t-panel);
+    border: 1px solid var(--t-border);
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    margin: 20px 0;
+}
+.annex-box h3 {
+    margin-top: 0;
+    color: var(--t-accent-text);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div class="legal-page">
+
+    <div class="legal-nav">
+        <a href="/legal/privacy">Privacy Policy</a>
+        <a href="/legal/terms">Terms of Service</a>
+        <a href="/legal/dpa" class="active">Data Processing Agreement</a>
+        <a href="/">← Back to {{ product }}</a>
+    </div>
+
+    <div class="legal-header">
+        <div class="product-name">{{ company }} · {{ product }}</div>
+        <h1>Data Processing Agreement</h1>
+        <div class="effective-date">Effective Date: March 24, 2026 &nbsp;·&nbsp; Version 1.0 (Draft — pending attorney review) &nbsp;·&nbsp; GDPR Article 28</div>
+    </div>
+
+    <div class="legal-draft-banner">
+        <strong>DRAFT — Pending Attorney Review.</strong> This DPA is a working draft prepared to satisfy GDPR Article 28 requirements. It will be reviewed and finalized by qualified legal counsel before {{ product }} is made generally available. Customers requiring a signed DPA before onboarding should contact <a href="mailto:{{ contact_email }}" style="color:var(--t-warning)">{{ contact_email }}</a>.
+    </div>
+
+    <h2>Background</h2>
+    <p>This Data Processing Agreement ("DPA") forms part of the Terms of Service between <strong>{{ company }}</strong> ("Data Processor" or "Processor") and the Customer organization ("Data Controller" or "Controller") and governs the processing of personal data by Processor on behalf of Controller in connection with the {{ product }} platform.</p>
+    <p>This DPA supplements and is incorporated into the Terms of Service. In the event of conflict, this DPA takes precedence with respect to data processing matters.</p>
+
+    <h2>1. Definitions</h2>
+    <p>Terms defined in the GDPR (Regulation (EU) 2016/679) and UK GDPR have the same meaning here. Additionally:</p>
+    <ul>
+        <li><strong>"Controller"</strong> means the Customer organization that determines the purposes and means of processing personal data.</li>
+        <li><strong>"Processor"</strong> means {{ company }}, which processes personal data on behalf of the Controller.</li>
+        <li><strong>"Personal Data"</strong> means any information relating to an identified or identifiable natural person submitted to {{ product }} by or on behalf of Controller.</li>
+        <li><strong>"Processing"</strong> has the meaning given in the GDPR.</li>
+        <li><strong>"Sub-processor"</strong> means any third party engaged by Processor to process Personal Data.</li>
+        <li><strong>"Security Incident"</strong> means any accidental or unlawful destruction, loss, alteration, unauthorized disclosure of, or access to Personal Data.</li>
+    </ul>
+
+    <h2>2. Scope and Duration</h2>
+    <p>This DPA applies to all processing of Personal Data by Processor on behalf of Controller in connection with the {{ product }} platform, for the duration of the Controller's subscription to the Service. Upon termination, Processor will delete or return Personal Data as described in Section 9.</p>
+
+    <h2>3. Details of Processing</h2>
+
+    <div class="annex-box">
+        <h3>Annex I — Processing Particulars</h3>
+        <table class="legal-table">
+            <tr>
+                <th>Element</th>
+                <th>Detail</th>
+            </tr>
+            <tr>
+                <td><strong>Subject matter</strong></td>
+                <td>IT helpdesk and support ticket management with AI-assisted processing</td>
+            </tr>
+            <tr>
+                <td><strong>Duration</strong></td>
+                <td>Duration of the Controller's subscription to {{ product }}</td>
+            </tr>
+            <tr>
+                <td><strong>Nature and purpose</strong></td>
+                <td>Storing, organizing, and AI-processing support tickets; managing knowledge bases; generating analytics; routing and triage via Atlas AI</td>
+            </tr>
+            <tr>
+                <td><strong>Types of Personal Data</strong></td>
+                <td>Names, email addresses, job roles, ticket content (which may include descriptions of technical issues, system configurations, and incidentally submitted personal information), AI conversation content, caller voice audio and phone session transcripts, phone numbers and call metadata, billing email and subscription data, usage logs, IP addresses</td>
+            </tr>
+            <tr>
+                <td><strong>Categories of Data Subjects</strong></td>
+                <td>Controller's employees (agents and administrators), Controller's customers and end users who submit support requests</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>4. Controller Instructions</h2>
+    <p>Processor will process Personal Data only on documented instructions from Controller, including with regard to transfers of Personal Data to a third country or international organization, unless required to do so by applicable law. In such a case, Processor will inform Controller of that legal requirement before processing, unless that law prohibits such information.</p>
+    <p>Controller's instructions are set out in the Terms of Service and this DPA. Controller may provide additional instructions in writing. Processor will promptly inform Controller if it believes an instruction infringes the GDPR or other applicable data protection laws.</p>
+
+    <h2>5. Processor Obligations</h2>
+    <p>Processor commits to:</p>
+    <ol>
+        <li><strong>Confidentiality:</strong> Ensure that persons authorized to process Personal Data have committed themselves to confidentiality or are under an appropriate statutory obligation of confidentiality.</li>
+        <li><strong>Security:</strong> Implement appropriate technical and organizational measures to ensure a level of security appropriate to the risk (see Section 7).</li>
+        <li><strong>Sub-processors:</strong> Not engage Sub-processors without prior general or specific written authorization of Controller. Where prior general authorization is given, Processor will inform Controller of any intended changes concerning the addition or replacement of Sub-processors, giving Controller the opportunity to object. Controller provides general authorization to the sub-processors listed in Annex II.</li>
+        <li><strong>Data subject rights:</strong> Assist Controller, by appropriate technical and organizational measures insofar as possible, to fulfill Controller's obligation to respond to requests for exercising Data Subjects' rights.</li>
+        <li><strong>Controller assistance:</strong> Assist Controller in ensuring compliance with GDPR Articles 32–36 (security, breach notification, impact assessments, prior consultation), taking into account the nature of processing and information available to Processor.</li>
+        <li><strong>Return or deletion:</strong> At Controller's choice, delete or return all Personal Data upon termination of the Service (see Section 9).</li>
+        <li><strong>Audit:</strong> Make available to Controller all information necessary to demonstrate compliance with the obligations in Article 28 of the GDPR and allow for and contribute to audits, including inspections, conducted by Controller or an auditor mandated by Controller. Processor may charge a reasonable fee for audit assistance.</li>
+    </ol>
+
+    <h2>6. Sub-Processors</h2>
+
+    <div class="annex-box">
+        <h3>Annex II — Approved Sub-Processors</h3>
+        <table class="legal-table">
+            <tr>
+                <th>Sub-Processor</th>
+                <th>Purpose</th>
+                <th>Location</th>
+                <th>Transfer Mechanism</th>
+            </tr>
+            <tr>
+                <td>Anthropic, PBC</td>
+                <td>AI inference — ticket analysis, triage, conversation</td>
+                <td>United States</td>
+                <td>SCCs / Anthropic DPA</td>
+            </tr>
+            <tr>
+                <td>OpenAI, LLC</td>
+                <td>AI inference failover</td>
+                <td>United States</td>
+                <td>SCCs / OpenAI DPA</td>
+            </tr>
+            <tr>
+                <td>Voyage AI</td>
+                <td>Text embeddings for semantic search</td>
+                <td>United States</td>
+                <td>SCCs</td>
+            </tr>
+            <tr>
+                <td>Cloudflare, Inc.</td>
+                <td>TLS termination, network tunnel, email routing</td>
+                <td>Global (distributed)</td>
+                <td>SCCs / Cloudflare DPA</td>
+            </tr>
+            <tr>
+                <td>Resend</td>
+                <td>Transactional email delivery</td>
+                <td>United States</td>
+                <td>SCCs</td>
+            </tr>
+            <tr>
+                <td>Dropbox, Inc.</td>
+                <td>Encrypted database backup storage</td>
+                <td>United States</td>
+                <td>SCCs / Dropbox DPA</td>
+            </tr>
+            <tr>
+                <td>Sentry (Functional Software, Inc.)</td>
+                <td>Error diagnostics (optional — only if configured)</td>
+                <td>United States</td>
+                <td>SCCs / Sentry DPA</td>
+            </tr>
+            <tr>
+                <td>ElevenLabs, Inc.</td>
+                <td>Voice synthesis, speech recognition, and conversational AI for phone service — processes caller voice audio, conversation transcripts, and agent system prompts</td>
+                <td>United States</td>
+                <td>SCCs / ElevenLabs DPA</td>
+            </tr>
+            <tr>
+                <td>Twilio, Inc.</td>
+                <td>Telephony, call routing, and SIP connectivity for phone service — processes phone numbers, call metadata, and SIP signaling data</td>
+                <td>United States</td>
+                <td>SCCs / Twilio DPA</td>
+            </tr>
+            <tr>
+                <td>Stripe, Inc.</td>
+                <td>Payment processing and subscription management — processes billing email, payment method tokens, subscription data, and invoice history</td>
+                <td>United States</td>
+                <td>SCCs / Stripe DPA</td>
+            </tr>
+        </table>
+        <p style="font-size:12px; color:var(--t-text-muted); margin-top:12px">SCCs = EU Standard Contractual Clauses (Commission Decision 2021/914). Sub-processor list updated as of March 2026. Controller will be notified at least 10 days before adding or replacing a Sub-processor.</p>
+    </div>
+
+    <h3>6.1 BYOK Enterprise Customers</h3>
+    <p>Enterprise Customers who supply their own AI API keys (BYOK) establish a direct relationship with the respective AI provider (Anthropic, OpenAI, Voyage AI). In BYOK configurations, {{ company }} does not transmit Customer Data to these providers on {{ company }}'s accounts. The AI provider is a Controller-appointed sub-processor, not a {{ company }} sub-processor, for BYOK customers.</p>
+
+    <h2>7. Security Measures</h2>
+
+    <div class="annex-box">
+        <h3>Annex III — Technical and Organizational Measures</h3>
+        <table class="legal-table">
+            <tr>
+                <th>Category</th>
+                <th>Measure</th>
+            </tr>
+            <tr>
+                <td>Encryption in transit</td>
+                <td>TLS 1.2+ enforced via Cloudflare Tunnel for all client connections. HTTPS-only. No unencrypted communication with the platform.</td>
+            </tr>
+            <tr>
+                <td>Encryption at rest</td>
+                <td>Connector credentials and BYOK API keys encrypted using Fernet (AES-128-CBC with HMAC-SHA256) before database storage. Database server uses filesystem encryption.</td>
+            </tr>
+            <tr>
+                <td>Access control</td>
+                <td>Role-based access control (RBAC) with permission-level granularity enforced on all 60+ endpoints. Multi-tenant isolation enforced at the database query level (tenant_id scoping on all queries).</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>OAuth 2.0 (Microsoft 365 / Google) with CSRF state parameter validation. HttpOnly, Secure, SameSite=Lax session cookies. Server-side session storage (Redis).</td>
+            </tr>
+            <tr>
+                <td>Network security</td>
+                <td>SSRF protection on all outbound HTTP requests to user-supplied URLs (hostname resolution, RFC 1918 blocking). Non-root Docker container execution.</td>
+            </tr>
+            <tr>
+                <td>Data backup</td>
+                <td>Daily encrypted database backups with GFS (Grandfather-Father-Son) rotation. Backup storage: encrypted Dropbox.</td>
+            </tr>
+            <tr>
+                <td>Monitoring</td>
+                <td>Structured JSON application logs. Optional Sentry error tracking. API usage logging per tenant.</td>
+            </tr>
+            <tr>
+                <td>Organizational</td>
+                <td>Access to production systems limited to {{ company }} personnel with operational need. Infrastructure access requires SSH key authentication.</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>8. Security Incident Notification</h2>
+    <p>In the event of a Security Incident involving Personal Data of Controller's Data Subjects, Processor will:</p>
+    <ol>
+        <li>Notify Controller without undue delay and, where feasible, within 72 hours of becoming aware of the incident.</li>
+        <li>Provide Controller with the following information to the extent available:
+            <ul>
+                <li>Nature of the Security Incident (categories and approximate number of Data Subjects and records concerned)</li>
+                <li>Name and contact details of the data protection point of contact</li>
+                <li>Likely consequences of the Security Incident</li>
+                <li>Measures taken or proposed to address the incident and mitigate its effects</li>
+            </ul>
+        </li>
+        <li>Cooperate with Controller's investigation and reasonable requests.</li>
+    </ol>
+    <p>Notification of a Security Incident by Processor does not constitute an acknowledgment of fault or liability.</p>
+    <p>Security incident reports should be sent to: <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a></p>
+
+    <h2>9. Return and Deletion of Personal Data</h2>
+    <p>Upon termination or expiry of the Service:</p>
+    <ul>
+        <li>Processor will provide Controller a 30-day window to export Customer Data via available export features.</li>
+        <li>After 30 days from termination, Processor will securely delete all Personal Data (including backup copies, subject to backup rotation schedules of up to 90 days).</li>
+        <li>Controller may request earlier deletion by written notice to <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>.</li>
+        <li>Processor will provide written confirmation of deletion upon request.</li>
+        <li>Processor may retain Personal Data for longer periods where required by applicable law, in which case Processor will inform Controller.</li>
+    </ul>
+
+    <h2>10. Data Transfers</h2>
+    <p>Where processing involves transfer of Personal Data outside the European Economic Area (EEA) or United Kingdom, such transfers are made:</p>
+    <ul>
+        <li>To Sub-processors under Standard Contractual Clauses (SCCs) issued by the European Commission (Decision 2021/914); or</li>
+        <li>Under another appropriate safeguard recognized under GDPR Chapter V.</li>
+    </ul>
+    <p>Controller provides general authorization for transfers to Sub-processors listed in Annex II, subject to the transfer mechanisms noted therein.</p>
+
+    <h2>11. Data Protection Impact Assessments</h2>
+    <p>Where Controller determines that a Data Protection Impact Assessment (DPIA) is required under GDPR Article 35, Processor will provide reasonable assistance and relevant information about the processing activities, security measures, and sub-processor arrangements described in this DPA.</p>
+
+    <h2>12. Liability</h2>
+    <p>Each party's liability under this DPA is subject to the limitations set out in the Terms of Service. Nothing in this DPA limits either party's liability to Data Subjects or supervisory authorities under applicable data protection law.</p>
+
+    <h2>13. Order of Precedence</h2>
+    <p>In the event of conflict between this DPA and the Terms of Service with respect to data protection matters, this DPA takes precedence. In all other matters, the Terms of Service govern.</p>
+
+    <h2>14. Governing Law</h2>
+    <p>This DPA is governed by the same governing law as the Terms of Service, unless otherwise required by applicable data protection law (e.g., GDPR supervisory authority requirements).</p>
+
+    <h2>15. Contact</h2>
+    <p>For DPA-related inquiries, signing requests, or audit notices:</p>
+    <ul>
+        <li><strong>Email:</strong> <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a></li>
+        <li><strong>Subject line:</strong> DPA — [Organization Name]</li>
+        <li><strong>Company:</strong> {{ company }} / {{ product }}</li>
+    </ul>
+    <p>Customers requiring a countersigned DPA should contact us at the address above. We will execute countersigned DPAs upon request for all Starter tier and above Customers.</p>
+
+</div>
+{% endblock %}

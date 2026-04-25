@@ -1,0 +1,10 @@
+# Production overlay — restores the tmpfs env-file path used on the BITSM
+# production VM (where /run/bitsm/env is written by ExecStartPre via the
+# bitsm.service systemd unit). For local development or self-hosted
+# deployments, use the base docker-compose.yml which defaults to .env.
+#
+# Usage on prod:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  helpdesk:
+    env_file: /run/bitsm/env

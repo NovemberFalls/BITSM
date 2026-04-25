@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "helpdesk-dev",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "flask", "--app", "app:create_app", "run", "--port", "5070", "--debug"],
+      "port": 5070
+    },
+    {
+      "name": "helpdesk-vite",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["webapp/node_modules/vite/bin/vite.js", "--port", "5173"],
+      "port": 5173
+    }
+  ]
+}

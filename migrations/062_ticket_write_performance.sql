@@ -1,0 +1,22 @@
+-- Migration 062: Reduce write amplification on the tickets table
+--
+-- Problem: tickets has 22 indexes. Every INSERT and every UPDATE to any
+-- indexed column currently touches all 22 B-tree/GIN structures. Status
+-- transitions, SLA flag flips, summary updates — each hits all 22 indexes.
+--
+-- Fix: fillfactor=80 tells PostgreSQL to leave 20% of each heap page free.
+-- When a non-indexed column is updated and free space exists on the same page,
+-- PostgreSQL uses a HOT (Heap-Only Tuple) update — the index is never touched,
+-- only the heap page is written. Benchmarks at this index count typically show
+-- 30-50% reduction in UPDATE I/O for status/flag transitions.
+--
+-- This is a metadata-only change — no table rewrite, no lock beyond a brief
+-- AccessShareLock. Takes effect immediately for new page allocations.
+--
+-- After running this migration, run once at low traffic:
+--   VACUUM helpdesk.tickets;
+-- This reclaims dead tuples and lets subsequent writes land on pages sized
+-- at the new fillfactor. A full VACUUM FULL during a maintenance window will
+-- maximize the benefit by repacking all existing pages to 80% density.
+
+ALTER TABLE helpdesk.tickets SET (fillfactor = 80);

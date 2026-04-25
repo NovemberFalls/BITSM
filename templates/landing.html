@@ -1,0 +1,717 @@
+{% extends "base.html" %}
+{% block title %}BITSM — AI-Powered IT Service Management{% endblock %}
+{% block head %}
+<!-- SEO -->
+<meta name="description" content="BITSM — AI-powered IT service management. Atlas AI learns from every ticket resolution. Try free with your own API keys.">
+<meta name="robots" content="index, follow">
+<!-- Open Graph -->
+<meta property="og:title" content="BITSM — AI-Powered IT Service Management">
+<meta property="og:description" content="Your IT team, amplified by Atlas AI. Every ticket. Every answer. Every resolution. Learned.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bitsm.io">
+<meta property="og:site_name" content="BITSM">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BITSM — AI-Powered IT Service Management">
+<meta name="twitter:description" content="Your IT team, amplified by Atlas AI. Every ticket. Every answer. Every resolution. Learned.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Canvas Background ── */
+#bitsm-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.lp { position: relative; z-index: 1; min-height: 100vh; color: var(--t-text); font-family: var(--font); }
+
+/* ── Nav ── */
+.lp-nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 56px;
+    background: rgba(3,5,8,0.80);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(99,102,241,0.12);
+}
+.lp-nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.lp-nav-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #6366f1, #06b6d4);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: white;
+}
+.lp-nav-name { font-weight: 700; font-size: 16px; color: var(--t-text-bright); }
+.lp-nav-sub { font-size: 10px; color: var(--t-text-dim); font-family: var(--mono); margin-left: 2px; letter-spacing: 0.5px; }
+.lp-nav-links { display: flex; align-items: center; gap: 24px; }
+.lp-nav-link { font-size: 13px; color: var(--t-text-muted); text-decoration: none; transition: color 0.15s; }
+.lp-nav-link:hover { color: var(--t-text); }
+.lp-nav-signin {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 16px; background: var(--t-accent); color: white;
+    border-radius: var(--radius-xs); font-size: 13px; font-weight: 600;
+    text-decoration: none; transition: opacity 0.15s;
+}
+.lp-nav-signin:hover { opacity: 0.9; }
+
+/* ── Hero ── */
+.lp-hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px; text-align: center;
+}
+.lp-hero-inner { max-width: 760px; }
+.lp-hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    color: var(--t-accent-text); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 28px; padding: 5px 14px;
+    background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 999px;
+}
+.lp-hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--t-accent); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.lp-hero h1 {
+    font-size: clamp(36px, 6vw, 64px); font-weight: 800;
+    color: var(--t-text-bright); line-height: 1.1; letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+.lp-hero h1 .grad {
+    background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #818cf8 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    background-size: 200% 200%; animation: grad-shift 4s ease infinite;
+}
+@keyframes grad-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+.lp-hero h2 {
+    font-size: clamp(13px, 1.5vw, 16px); font-weight: 400;
+    color: var(--t-text-muted); margin-bottom: 28px;
+    font-family: var(--mono); letter-spacing: 0.5px;
+}
+
+.lp-typewriter-wrap {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--t-panel); border: 1px solid var(--t-border);
+    border-radius: var(--radius-sm); padding: 10px 18px;
+    font-family: var(--mono); font-size: 14px; color: var(--t-text-muted);
+    margin-bottom: 40px;
+}
+.lp-typewriter-wrap .prompt { color: var(--t-accent-text); font-weight: 600; }
+#lp-typewriter { color: var(--t-text); }
+.lp-cursor { color: var(--t-accent); animation: blink 1s step-end infinite; font-weight: 300; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.lp-hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.lp-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 26px; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 500;
+    text-decoration: none; transition: all 0.15s ease;
+    border: 1px solid var(--t-border-light); background: var(--t-panel); color: var(--t-text);
+    min-width: 200px; justify-content: center;
+}
+.lp-btn:hover { background: var(--t-panel-alt); border-color: rgba(99,102,241,0.4); }
+.lp-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+.lp-btn-primary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-color: #6366f1; color: white;
+}
+.lp-btn-primary:hover { opacity: 0.9; background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+/* ── Story ── */
+.lp-section { max-width: 1100px; margin: 0 auto; padding: 96px 40px; }
+.lp-section-eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--t-accent-text);
+    margin-bottom: 12px;
+}
+.lp-section-title { font-size: clamp(24px, 3vw, 36px); font-weight: 700; color: var(--t-text-bright); margin-bottom: 16px; line-height: 1.2; }
+.lp-section-body { font-size: 15px; color: var(--t-text-muted); line-height: 1.8; max-width: 580px; }
+
+.lp-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    margin-top: 56px;
+    position: relative;
+}
+.lp-flow::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 28px; right: 28px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), rgba(6,182,212,0.3), transparent);
+    z-index: 0;
+}
+.lp-flow-step {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 0 16px; position: relative; z-index: 1;
+}
+.lp-flow-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--t-panel); border: 1px solid var(--t-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--t-accent-text);
+    margin-bottom: 16px;
+    box-shadow: 0 0 0 4px rgba(3,5,8,1);
+}
+.lp-flow-step h4 { font-size: 13px; font-weight: 600; color: var(--t-text-bright); margin-bottom: 6px; }
+.lp-flow-step p { font-size: 12px; color: var(--t-text-muted); line-height: 1.5; }
+
+/* ── Pillars ── */
+.lp-pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 56px;
+}
+.lp-pillar {
+    background: var(--t-panel);
+    border: 1px solid var(--t-border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: border-color 0.2s;
+}
+.lp-pillar:hover { border-color: rgba(99,102,241,0.3); }
+.lp-pillar-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 16px;
+}
+.lp-pillar h3 { font-size: 15px; font-weight: 600; color: var(--t-text-bright); margin-bottom: 8px; }
+.lp-pillar p { font-size: 13px; color: var(--t-text-muted); line-height: 1.7; }
+.lp-pillar-tag {
+    display: inline-flex; margin-top: 12px;
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    color: var(--t-accent-text); letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 3px 8px; background: rgba(99,102,241,0.08); border-radius: 4px;
+}
+
+/* ── Divider ── */
+.lp-divider {
+    border: none; max-width: 1100px; margin: 0 auto;
+    border-top: 1px solid var(--t-border);
+}
+
+/* ── Pricing ── */
+.lp-pricing-section { max-width: 1160px; margin: 0 auto; padding: 96px 40px; }
+.lp-pricing-head { text-align: center; margin-bottom: 56px; }
+
+/* Demo card — single featured card layout */
+.lp-demo-card-wrap {
+    display: flex; justify-content: center;
+}
+.lp-demo-card {
+    background: var(--t-panel);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    border-radius: var(--radius);
+    padding: 40px 48px;
+    max-width: 480px; width: 100%;
+    position: relative;
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.06);
+}
+.lp-demo-card-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: white; font-size: 10px; font-weight: 700;
+    padding: 3px 14px; border-radius: 999px; white-space: nowrap; letter-spacing: 0.5px;
+}
+.lp-demo-card-name {
+    font-size: 11px; font-weight: 700; color: #06b6d4;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px;
+}
+.lp-demo-card-price {
+    display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px;
+}
+.lp-demo-card-price .amt {
+    font-size: 56px; font-weight: 800; color: var(--t-text-bright); line-height: 1;
+}
+.lp-demo-card-price .per { font-size: 14px; color: var(--t-text-muted); }
+.lp-demo-card-byline {
+    font-size: 13px; color: var(--t-text-muted); margin-bottom: 28px;
+}
+.lp-demo-card hr {
+    border: none; border-top: 1px solid var(--t-border); margin-bottom: 20px;
+}
+.lp-demo-card ul {
+    list-style: none; display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 32px;
+}
+.lp-demo-card li {
+    font-size: 13px; color: var(--t-text-muted);
+    display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;
+}
+.lp-demo-card li::before {
+    content: '✓'; color: #06b6d4; font-size: 11px; font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+}
+.lp-demo-card-cta {
+    display: block; text-align: center; width: 100%;
+    padding: 14px 24px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: white; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: opacity 0.15s;
+}
+.lp-demo-card-cta:hover { opacity: 0.9; }
+
+/* Deploy Your Own section */
+.lp-deploy-own {
+    text-align: center; margin-top: 48px;
+    padding-top: 40px; border-top: 1px solid var(--t-border);
+}
+.lp-deploy-own-title {
+    font-size: 15px; font-weight: 600; color: var(--t-text-bright); margin-bottom: 8px;
+}
+.lp-deploy-own-body {
+    font-size: 13px; color: var(--t-text-muted); margin-bottom: 12px;
+}
+.lp-deploy-own-link {
+    font-size: 13px; color: #06b6d4; text-decoration: none; font-weight: 500;
+}
+.lp-deploy-own-link:hover { text-decoration: underline; }
+.lp-deploy-own-meta {
+    font-size: 12px; color: var(--t-text-dim); margin-top: 8px;
+    font-family: var(--mono); letter-spacing: 0.2px;
+}
+
+@media (max-width: 600px) {
+    .lp-demo-card { padding: 32px 24px; }
+    .lp-demo-card-price .amt { font-size: 42px; }
+}
+
+/* ── CTA ── */
+.lp-cta-section { text-align: center; padding: 48px 24px 96px; }
+.lp-cta-section h2 { font-size: 28px; font-weight: 700; color: var(--t-text-bright); margin-bottom: 12px; }
+.lp-cta-section p { font-size: 14px; color: var(--t-text-muted); margin-bottom: 32px; }
+
+/* ── Footer ── */
+.lp-footer {
+    border-top: 1px solid var(--t-border); padding: 24px 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    background: rgba(3,5,8,0.6);
+}
+.lp-footer-left { display: flex; align-items: center; gap: 16px; }
+.lp-footer-copy { font-size: 12px; color: var(--t-text-dim); }
+.lp-footer-links { display: flex; gap: 20px; }
+.lp-footer-links a { font-size: 12px; color: var(--t-text-muted); text-decoration: none; }
+.lp-footer-links a:hover { color: var(--t-text); }
+
+/* ── Scroll reveal ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<!-- Animated particle canvas -->
+<canvas id="bitsm-canvas"></canvas>
+
+<div class="lp">
+
+  <!-- Nav -->
+  <nav class="lp-nav">
+    <a href="/" class="lp-nav-brand">
+      <div class="lp-nav-icon">B</div>
+      <div>
+        <div class="lp-nav-name">BITSM</div>
+      </div>
+    </a>
+    <div class="lp-nav-links">
+      <a href="#story" class="lp-nav-link">How it works</a>
+      <a href="#pricing" class="lp-nav-link">Try Free</a>
+      <a href="/legal/privacy" class="lp-nav-link">Privacy</a>
+      {% if google_enabled %}
+      <a href="/auth/login/google" class="lp-nav-signin">Sign In</a>
+      {% elif microsoft_enabled %}
+      <a href="/auth/login/microsoft" class="lp-nav-signin">Sign In</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-hero-tag">Boord Information Technology Service Management</div>
+      <h1>Your IT team,<br>amplified by <span class="grad">Atlas AI</span></h1>
+      <h2>Every ticket. Every answer. Every resolution. Learned.</h2>
+      <div class="lp-typewriter-wrap">
+        <span class="prompt">atlas&gt;</span>
+        <span id="lp-typewriter"></span>
+        <span class="lp-cursor">|</span>
+      </div>
+      <div class="lp-hero-ctas">
+        <a href="/login" class="lp-btn lp-btn-primary" style="min-width:180px;">
+          Try the demo &rarr;
+        </a>
+        {% if microsoft_enabled %}
+        <a href="/auth/login/microsoft" class="lp-btn">
+          <svg viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+          Sign in with Microsoft
+        </a>
+        {% endif %}
+        {% if google_enabled %}
+        <a href="/auth/login/google" class="lp-btn">
+          <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Sign in with Google
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <hr class="lp-divider">
+  <section class="lp-section reveal" id="story">
+    <div class="lp-section-eyebrow">// how it works</div>
+    <div class="lp-section-title">Atlas doesn't just answer tickets.<br>It learns your stack.</div>
+    <div class="lp-section-body">Most helpdesks are inboxes. BITSM is a system that gets smarter every time your team resolves something. Atlas reads your knowledge base, understands your ticket history, and routes the right problem to the right person — before anyone has to think about it.</div>
+
+    <div class="lp-flow">
+      <div class="lp-flow-step">
+        <div class="lp-flow-num">01</div>
+        <h4>Ticket arrives</h4>
+        <p>Via portal, email, or agent — any channel creates a ticket instantly.</p>
+      </div>
+      <div class="lp-flow-step">
+        <div class="lp-flow-num">02</div>
+        <h4>Atlas analyzes</h4>
+        <p>Category, priority, SLA risk, and best-match agent determined in seconds.</p>
+      </div>
+      <div class="lp-flow-step">
+        <div class="lp-flow-num">03</div>
+        <h4>Agent gets context</h4>
+        <p>Relevant KB articles, similar resolved tickets, and suggested response surface automatically.</p>
+      </div>
+      <div class="lp-flow-step">
+        <div class="lp-flow-num">04</div>
+        <h4>Resolution audited</h4>
+        <p>Atlas scores every closed ticket for quality, flags knowledge gaps, and feeds the loop.</p>
+      </div>
+      <div class="lp-flow-step">
+        <div class="lp-flow-num">05</div>
+        <h4>System improves</h4>
+        <p>Routing gets sharper. Gaps get filled. Each ticket makes the next one faster.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <hr class="lp-divider">
+  <section class="lp-section reveal">
+    <div class="lp-section-eyebrow">// built for IT operations</div>
+    <div class="lp-section-title">Everything your team needs.<br>Nothing they don't.</div>
+
+    <div class="lp-pillars">
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">🧠</div>
+        <h3>Atlas AI — L1 to L3</h3>
+        <p>Three tiers of intelligence. Fast triage at speed. Deep analysis when needed. Human agents take over when it counts. Every handoff is tracked.</p>
+        <span class="lp-pillar-tag">AI-Powered · Multi-Tier</span>
+      </div>
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">📬</div>
+        <h3>Email → Ticket, Automatically</h3>
+        <p>Send an email, get a ticket. Inbound email routing via Cloudflare creates tickets instantly — no portal login required. Standard on every paid plan. Support meets users where they are.</p>
+        <span class="lp-pillar-tag">Cloudflare Email Worker</span>
+      </div>
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">📚</div>
+        <h3>Vertical Knowledge Base</h3>
+        <p>15+ pre-built modules for restaurant technology stacks: Toast, Solink, Olo, R365, Rockbot, Square, Lightspeed, and more. Atlas searches them in real time during every interaction.</p>
+        <span class="lp-pillar-tag">RAG · pgvector</span>
+      </div>
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">⚡</div>
+        <h3>Workflow Automations</h3>
+        <p>Visual automation builder with 8 trigger types, conditional branching, and action chains. Auto-assign, escalate, notify, or call a webhook — triggered by ticket events, SLA breach, or schedule.</p>
+        <span class="lp-pillar-tag">React Flow · Visual Builder</span>
+      </div>
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">📊</div>
+        <h3>AI-Differentiated Reporting</h3>
+        <p>Eight report types including AI effectiveness, agent performance, ticket volume, aging tickets, routing insights, SLA compliance, category and location breakdown. Metrics that no off-the-shelf helpdesk tracks — because Atlas is generating the data.</p>
+        <span class="lp-pillar-tag">ECharts · CSV Export</span>
+      </div>
+      <div class="lp-pillar">
+        <div class="lp-pillar-icon">🔐</div>
+        <h3>BYOK Enterprise</h3>
+        <p>Bring your own Anthropic, OpenAI, and Voyage AI API keys. Full platform capabilities at a flat $100/user/month — zero AI cost of goods on our side, full control on yours.</p>
+        <span class="lp-pillar-tag">Fernet Encrypted · Enterprise</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <hr class="lp-divider">
+  <section class="lp-pricing-section reveal" id="pricing">
+    <div class="lp-pricing-head">
+      <div class="lp-section-eyebrow" style="text-align:center">// try bitsm free</div>
+      <div class="lp-section-title" style="text-align:center; max-width:560px; margin:0 auto 12px">Try BITSM Free</div>
+      <div style="font-size:13px; color:var(--t-text-muted); text-align:center">Bring your own API keys. Zero cost. Full platform access.</div>
+    </div>
+
+    <div class="lp-demo-card-wrap">
+      <div class="lp-demo-card">
+        <div class="lp-demo-card-badge">Demo</div>
+        <div class="lp-demo-card-name">Demo</div>
+        <div class="lp-demo-card-price">
+          <span class="amt">$0</span>
+          <span class="per">forever</span>
+        </div>
+        <div class="lp-demo-card-byline">Bring your own Anthropic + Voyage API keys</div>
+        <hr>
+        <ul>
+          <li>Full IT helpdesk with Atlas AI</li>
+          <li>17 knowledge modules</li>
+          <li>Multi-agent phone system</li>
+          <li>Workflow automations</li>
+          <li>Custom fields &amp; service catalog</li>
+          <li>Sprint boards for dev teams</li>
+          <li>7-day data retention</li>
+        </ul>
+        <a href="/login" class="lp-demo-card-cta">Sign in to try &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Deploy Your Own -->
+    <div class="lp-deploy-own">
+      <div class="lp-deploy-own-title">Want full control? Deploy BITSM on your own infrastructure.</div>
+      <div class="lp-deploy-own-body">Self-host the full platform — no data leaves your environment.</div>
+      <a href="https://github.com/NovemberFalls/bitsm" target="_blank" rel="noopener noreferrer" class="lp-deploy-own-link">
+        github.com/NovemberFalls/bitsm
+      </a>
+      <div class="lp-deploy-own-meta">BSL 1.1 licensed &middot; Docker Compose &middot; PostgreSQL + Redis &middot; Full source available</div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <hr class="lp-divider">
+  <section class="lp-cta-section reveal">
+    <h2>Your team is one ticket away.</h2>
+    <p>Sign in with Microsoft or Google and your support operation is running in minutes.</p>
+    <div class="lp-hero-ctas">
+      {% if microsoft_enabled %}
+      <a href="/auth/login/microsoft" class="lp-btn">
+        <svg viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+        Sign in with Microsoft
+      </a>
+      {% endif %}
+      {% if google_enabled %}
+      <a href="/auth/login/google" class="lp-btn lp-btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Sign in with Google
+      </a>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="lp-footer">
+    <div class="lp-footer-left">
+      <div class="lp-nav-brand" style="text-decoration:none;">
+        <div class="lp-nav-icon" style="width:24px;height:24px;font-size:11px;">B</div>
+        <span class="lp-nav-name" style="font-size:13px;">BITSM</span>
+      </div>
+      <div class="lp-footer-copy">&copy; 2026 Boord Information Technology Services, LLC. All rights reserved.</div>
+    </div>
+    <div class="lp-footer-links">
+      <a href="/legal/privacy">Privacy Policy</a>
+      <a href="/legal/terms">Terms of Service</a>
+      <a href="/legal/dpa">DPA</a>
+    </div>
+  </footer>
+
+</div><!-- /.lp -->
+
+<script>
+(function() {
+  // ── Dual-color particle network (indigo + cyan — BITSM palette)
+  // Two node colors, gradient-tinted lines,
+  // grid-drift physics, and a ripple on mouse click.
+  var canvas = document.getElementById('bitsm-canvas');
+  var ctx = canvas.getContext('2d');
+
+  var W, H, nodes = [], mouse = { x: -1000, y: -1000 };
+  var ripples = [];
+
+  var COLORS = [
+    [99, 102, 241],   // indigo (--nova-1)
+    [6, 182, 212],    // cyan   (--nova-2)
+  ];
+  var NODE_COUNT = 70;
+  var CONNECT_DIST = 160;
+  var MOUSE_RADIUS = 220;
+  var SPEED = 0.25;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    NODE_COUNT = Math.floor((W * H) / 14000);
+    NODE_COUNT = Math.max(40, Math.min(NODE_COUNT, 120));
+  }
+
+  function mkNode() {
+    var ci = Math.random() < 0.55 ? 0 : 1; // slightly more indigo
+    var angle = Math.random() * Math.PI * 2;
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: Math.cos(angle) * SPEED * (0.5 + Math.random()),
+      vy: Math.sin(angle) * SPEED * (0.5 + Math.random()),
+      r: 1.2 + Math.random() * 1.4,
+      ci: ci,
+      phase: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function init() {
+    resize();
+    nodes = [];
+    for (var i = 0; i < NODE_COUNT; i++) nodes.push(mkNode());
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // update nodes
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0) { n.x = 0; n.vx *= -1; }
+      if (n.x > W) { n.x = W; n.vx *= -1; }
+      if (n.y < 0) { n.y = 0; n.vy *= -1; }
+      if (n.y > H) { n.y = H; n.vy *= -1; }
+    }
+
+    // draw connections
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var a = nodes[i], b = nodes[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > CONNECT_DIST) continue;
+
+        var alpha = (1 - dist / CONNECT_DIST) * 0.07;
+
+        // check mouse proximity for brightening
+        var mda = Math.sqrt((a.x-mouse.x)*(a.x-mouse.x)+(a.y-mouse.y)*(a.y-mouse.y));
+        var mdb = Math.sqrt((b.x-mouse.x)*(b.x-mouse.x)+(b.y-mouse.y)*(b.y-mouse.y));
+        if (mda < MOUSE_RADIUS || mdb < MOUSE_RADIUS) {
+          var boost = 1 - Math.min(mda, mdb) / MOUSE_RADIUS;
+          alpha = alpha + boost * 0.18;
+        }
+
+        // gradient line: from node-a color to node-b color
+        var grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+        var ca = COLORS[a.ci], cb = COLORS[b.ci];
+        grad.addColorStop(0, 'rgba(' + ca[0] + ',' + ca[1] + ',' + ca[2] + ',' + alpha + ')');
+        grad.addColorStop(1, 'rgba(' + cb[0] + ',' + cb[1] + ',' + cb[2] + ',' + alpha + ')');
+
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = (mda < MOUSE_RADIUS || mdb < MOUSE_RADIUS) ? 0.8 : 0.4;
+        ctx.stroke();
+      }
+    }
+
+    // draw nodes
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      var c = COLORS[n.ci];
+      var pulse = 0.5 + 0.5 * Math.sin(t * 0.0015 + n.phase);
+      var mdist = Math.sqrt((n.x-mouse.x)*(n.x-mouse.x)+(n.y-mouse.y)*(n.y-mouse.y));
+      var near = mdist < MOUSE_RADIUS ? (1 - mdist / MOUSE_RADIUS) : 0;
+      var alpha = 0.35 + pulse * 0.2 + near * 0.45;
+      var radius = n.r + near * 2.5;
+
+      // glow halo near mouse
+      if (near > 0) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, radius + 4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (near * 0.08) + ')';
+        ctx.fill();
+      }
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + alpha + ')';
+      ctx.fill();
+    }
+
+    // draw ripples (mouse click bursts)
+    for (var i = ripples.length - 1; i >= 0; i--) {
+      var rp = ripples[i];
+      rp.r += 4;
+      rp.alpha -= 0.018;
+      if (rp.alpha <= 0) { ripples.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(99,102,241,' + rp.alpha + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  function loop(t) {
+    draw(t);
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', function() { init(); });
+  window.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', function() { mouse.x = -1000; mouse.y = -1000; });
+  window.addEventListener('click', function(e) {
+    ripples.push({ x: e.clientX, y: e.clientY, r: 8, alpha: 0.5 });
+  });
+
+  init();
+  requestAnimationFrame(loop);
+})();
+
+// ── Typewriter
+(function() {
+  var phrases = [
+    'ticket routed to the right agent.',
+    'SLA breach detected and escalated.',
+    'email converted to ticket automatically.',
+    'knowledge gap identified and flagged.',
+    'automation triggered on P1 creation.',
+    'resolution quality scored by Atlas.',
+    'new knowledge base article suggested.',
+    'agent context loaded from 15 KB modules.',
+  ];
+  var el = document.getElementById('lp-typewriter');
+  var pi = 0, ci = 0, deleting = false;
+  function tick() {
+    var phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(tick, 2200); return; }
+      setTimeout(tick, 55 + Math.random() * 45);
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 400); return; }
+      setTimeout(tick, 32);
+    }
+  }
+  setTimeout(tick, 800);
+})();
+
+// ── Scroll reveal
+(function() {
+  var els = document.querySelectorAll('.reveal');
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+{% endblock %}

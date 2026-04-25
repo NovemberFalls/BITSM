@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy — {{ product }}{% endblock %}
+{% block head %}
+<style>
+.legal-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    color: var(--t-text);
+}
+.legal-header {
+    border-bottom: 1px solid var(--t-border);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+.legal-header .product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t-accent-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+.legal-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--t-text-bright);
+    margin-bottom: 8px;
+}
+.legal-header .effective-date {
+    font-size: 13px;
+    color: var(--t-text-muted);
+}
+.legal-draft-banner {
+    background: rgba(245,158,11,0.10);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    font-size: 12px;
+    color: var(--t-warning);
+    line-height: 1.6;
+}
+h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--t-text-bright);
+    margin: 32px 0 12px;
+}
+h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t-text);
+    margin: 20px 0 8px;
+}
+p, li {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--t-text);
+    margin-bottom: 10px;
+}
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+}
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+}
+.legal-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--t-panel-alt);
+    color: var(--t-text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--t-border);
+}
+.legal-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--t-border);
+    color: var(--t-text);
+    vertical-align: top;
+}
+.legal-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.legal-nav a {
+    font-size: 12px;
+    color: var(--t-text-muted);
+    text-decoration: none;
+    padding: 4px 8px;
+    border: 1px solid var(--t-border);
+    border-radius: var(--radius-xs);
+}
+.legal-nav a:hover { color: var(--t-text); border-color: var(--t-border-light); }
+.legal-nav a.active { color: var(--t-accent-text); border-color: var(--t-accent-border); }
+</style>
+{% endblock %}
+{% block body %}
+<div class="legal-page">
+
+    <div class="legal-nav">
+        <a href="/legal/privacy" class="active">Privacy Policy</a>
+        <a href="/legal/terms">Terms of Service</a>
+        <a href="/legal/dpa">Data Processing Agreement</a>
+        <a href="/">← Back to {{ product }}</a>
+    </div>
+
+    <div class="legal-header">
+        <div class="product-name">{{ company }} · {{ product }}</div>
+        <h1>Privacy Policy</h1>
+        <div class="effective-date">Effective Date: March 24, 2026 &nbsp;·&nbsp; Version 1.0 (Draft — pending attorney review)</div>
+    </div>
+
+    <div class="legal-draft-banner">
+        <strong>DRAFT — Pending Attorney Review.</strong> This document has been prepared as a working draft and will be reviewed and finalized by qualified legal counsel before {{ product }} is made generally available. It accurately reflects {{ product }}'s data practices as of the effective date above. Do not distribute to prospects without noting this status.
+    </div>
+
+    <h2>1. Introduction</h2>
+    <p>{{ company }} ("we," "us," or "our") operates <strong>{{ product }} — Boord Information Technology Service Management</strong>, a multi-tenant B2B SaaS platform that provides AI-powered IT helpdesk and ticketing services to organizations (each a "Customer" or "Tenant").</p>
+    <p>This Privacy Policy explains how we collect, use, disclose, and protect personal data when you use {{ product }}, and describes your rights with respect to that data. It applies to all users of {{ product }}, including tenant administrators, agents, and end users of Customer organizations.</p>
+    <p>If you are an employee or contractor of a Customer organization, your primary privacy relationship is with your employer (the Customer). We act as a data processor on the Customer's behalf for data submitted through the platform. See Section 8 for details.</p>
+    <p>Questions? Contact us at <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>.</p>
+
+    <h2>2. Data We Collect</h2>
+
+    <h3>2.1 Account and Identity Data</h3>
+    <ul>
+        <li>Name, email address, and profile picture (from OAuth provider — Microsoft 365 or Google)</li>
+        <li>Organization/tenant association</li>
+        <li>Role and permission assignments within the platform</li>
+        <li>Authentication tokens (short-lived, server-side session storage)</li>
+    </ul>
+
+    <h3>2.2 Helpdesk and Ticket Data</h3>
+    <ul>
+        <li>Support ticket content: subject, description, comments, attachments</li>
+        <li>Ticket metadata: status, priority, category, location, assigned agent, timestamps</li>
+        <li>Internal comments (visible only to agents and admins of the same tenant)</li>
+        <li>AI-generated content: triage notes, route suggestions, audit scores, knowledge gap identifications</li>
+    </ul>
+
+    <h3>2.3 AI Conversation Data</h3>
+    <ul>
+        <li>Messages sent to and received from Atlas (the AI assistant)</li>
+        <li>Conversation history, session context, and message metadata</li>
+        <li>AI interaction logs used for cost tracking and quality auditing</li>
+    </ul>
+
+    <h3>2.4 Usage and Technical Data</h3>
+    <ul>
+        <li>Log data: IP address, browser/device type, pages accessed, actions taken, timestamps</li>
+        <li>API usage metrics: model invoked, token counts, cost per call, aggregate monthly spend per tenant</li>
+        <li>Error and diagnostic data (optionally sent to Sentry error tracking)</li>
+        <li>Session data (stored server-side in Redis; session cookies are HttpOnly and Secure)</li>
+    </ul>
+
+    <h3>2.5 Voice and Telephony Data</h3>
+    <ul>
+        <li>Caller phone numbers and call metadata (call duration, timestamps, routing selections)</li>
+        <li>Voice audio transmitted to ElevenLabs for speech recognition and voice synthesis during phone interactions</li>
+        <li>Conversation transcripts generated from phone sessions</li>
+        <li>IVR menu selections and agent routing data</li>
+        <li>SIP signaling data processed by Twilio for call routing and telephony</li>
+    </ul>
+
+    <h3>2.6 Billing and Subscription Data</h3>
+    <ul>
+        <li>Billing email address associated with the Customer account</li>
+        <li>Subscription plan, status, and invoice history</li>
+        <li>Payment method tokens (tokenized by Stripe — {{ product }} does not store raw card numbers)</li>
+    </ul>
+
+    <h3>2.7 Knowledge Base Data</h3>
+    <ul>
+        <li>Documents, articles, and embedded knowledge content uploaded or scraped by Customers</li>
+        <li>Vector embeddings of document content (used for AI-powered search and retrieval)</li>
+    </ul>
+
+    <h3>2.8 Data We Do Not Collect</h3>
+    <ul>
+        <li>Payment card numbers or banking information (payment processing handled by third-party providers)</li>
+        <li>Sensitive personal data categories (health, race, religion, biometrics) — do not submit these to {{ product }}</li>
+        <li>BYOK API keys in plaintext — Enterprise customers' API keys are encrypted with Fernet encryption before storage</li>
+    </ul>
+
+    <h2>3. How We Use Personal Data</h2>
+    <table class="legal-table">
+        <tr>
+            <th>Purpose</th>
+            <th>Legal Basis (GDPR)</th>
+        </tr>
+        <tr>
+            <td>Providing and operating the {{ product }} platform and its features</td>
+            <td>Performance of contract</td>
+        </tr>
+        <tr>
+            <td>Authenticating users and maintaining secure sessions</td>
+            <td>Performance of contract / Legitimate interest (security)</td>
+        </tr>
+        <tr>
+            <td>Processing support tickets and routing them to appropriate agents</td>
+            <td>Performance of contract</td>
+        </tr>
+        <tr>
+            <td>Powering the Atlas AI assistant (ticket analysis, triage, routing, audit)</td>
+            <td>Performance of contract / Legitimate interest (service improvement)</td>
+        </tr>
+        <tr>
+            <td>Monitoring API usage and enforcing per-tier cost caps</td>
+            <td>Performance of contract / Legitimate interest (billing accuracy)</td>
+        </tr>
+        <tr>
+            <td>Generating anonymized analytics and quality reports for Customers</td>
+            <td>Legitimate interest (product improvement)</td>
+        </tr>
+        <tr>
+            <td>Sending transactional notifications (ticket updates, invitations)</td>
+            <td>Performance of contract</td>
+        </tr>
+        <tr>
+            <td>Detecting and preventing security incidents, fraud, or abuse</td>
+            <td>Legitimate interest (security)</td>
+        </tr>
+        <tr>
+            <td>Complying with legal obligations</td>
+            <td>Legal obligation</td>
+        </tr>
+    </table>
+
+    <h2>4. AI Processing and Third-Party AI Providers</h2>
+    <p>{{ product }} uses the following third-party AI services to power the Atlas AI engine. When you submit a support ticket or initiate an AI conversation, ticket content and conversation messages may be transmitted to these providers for processing:</p>
+    <table class="legal-table">
+        <tr>
+            <th>Provider</th>
+            <th>Purpose</th>
+            <th>Data Sent</th>
+        </tr>
+        <tr>
+            <td>Anthropic</td>
+            <td>Primary AI inference (ticket analysis, triage, conversation, audit)</td>
+            <td>Ticket content, KB context, conversation messages</td>
+        </tr>
+        <tr>
+            <td>OpenAI</td>
+            <td>AI failover (used when Anthropic is unavailable)</td>
+            <td>Same as Anthropic — only when failover triggers</td>
+        </tr>
+        <tr>
+            <td>Voyage AI</td>
+            <td>Text embeddings for semantic search (primary)</td>
+            <td>Document and ticket text for vector embedding</td>
+        </tr>
+        <tr>
+            <td>ElevenLabs</td>
+            <td>Voice synthesis, speech recognition, and conversational AI for phone service</td>
+            <td>Caller voice audio, conversation transcripts, agent system prompts</td>
+        </tr>
+        <tr>
+            <td>Twilio</td>
+            <td>Telephony, call routing, and SIP connectivity for phone service</td>
+            <td>Phone numbers, call metadata, SIP signaling data</td>
+        </tr>
+        <tr>
+            <td>Stripe</td>
+            <td>Payment processing and subscription management</td>
+            <td>Billing email, payment method tokens, subscription and invoice data</td>
+        </tr>
+    </table>
+    <p><strong>BYOK (Bring Your Own Key) Enterprise Customers:</strong> Enterprise tenants who supply their own Anthropic, OpenAI, and/or Voyage AI API keys have their data processed directly under their own agreements with those providers. {{ company }} does not transmit BYOK customers' data to these providers using {{ company }}'s API accounts.</p>
+    <p>We do not use your data to train third-party AI models. We rely on each provider's data processing commitments. Customers should review the privacy policies of each provider linked above.</p>
+
+    <h2>5. Data Sharing and Disclosure</h2>
+    <p>We do not sell, rent, or trade personal data. We disclose data only in the following circumstances:</p>
+    <ul>
+        <li><strong>Customer administrators:</strong> Tenant admins of your organization have access to data submitted by users in their tenant, including tickets, comments, and AI interactions.</li>
+        <li><strong>Sub-processors:</strong> We share data with the sub-processors listed in Section 7 to operate the platform.</li>
+        <li><strong>Legal compliance:</strong> We may disclose data if required by law, court order, or to protect the rights and safety of {{ company }}, our Customers, or others.</li>
+        <li><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of all or substantially all assets, personal data may be transferred. We will notify affected Customers.</li>
+    </ul>
+
+    <h2>6. Data Retention</h2>
+    <ul>
+        <li><strong>Active accounts:</strong> Data is retained for as long as the Customer's account is active.</li>
+        <li><strong>Ticket data:</strong> Retained for the duration of the Customer's subscription plus 90 days following termination, unless earlier deletion is requested.</li>
+        <li><strong>AI conversation logs:</strong> Retained for 12 months for billing and quality purposes, then deleted or anonymized.</li>
+        <li><strong>API usage logs:</strong> Retained for 24 months for billing and audit purposes.</li>
+        <li><strong>Session data:</strong> Server-side sessions expire after 24 hours of inactivity.</li>
+        <li><strong>Backup data:</strong> Database backups are retained on a GFS (Grandfather-Father-Son) rotation schedule. Backup media is encrypted.</li>
+    </ul>
+
+    <h2>7. Sub-Processors</h2>
+    <table class="legal-table">
+        <tr>
+            <th>Sub-Processor</th>
+            <th>Purpose</th>
+            <th>Location</th>
+        </tr>
+        <tr>
+            <td>Anthropic</td>
+            <td>AI inference (primary)</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>OpenAI</td>
+            <td>AI inference (failover)</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Voyage AI</td>
+            <td>Text embeddings</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Cloudflare</td>
+            <td>Tunnel / TLS termination / email routing</td>
+            <td>Global (distributed)</td>
+        </tr>
+        <tr>
+            <td>Resend</td>
+            <td>Transactional email delivery</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Dropbox</td>
+            <td>Encrypted database backup storage</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Sentry (optional)</td>
+            <td>Error tracking and diagnostics (only if SENTRY_DSN is configured)</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>ElevenLabs</td>
+            <td>Voice synthesis, speech recognition, and conversational AI (phone service)</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Twilio</td>
+            <td>Telephony, call routing, and SIP connectivity (phone service)</td>
+            <td>United States</td>
+        </tr>
+        <tr>
+            <td>Stripe</td>
+            <td>Payment processing and subscription management</td>
+            <td>United States</td>
+        </tr>
+    </table>
+    <p>We will maintain an up-to-date sub-processor list and notify Customers of material changes via email at least 10 days in advance.</p>
+
+    <h2>8. Controller and Processor Roles (GDPR)</h2>
+    <p>When {{ product }} is provided to a Customer organization:</p>
+    <ul>
+        <li>The <strong>Customer</strong> is the data controller for personal data submitted by their employees and end users into the platform.</li>
+        <li><strong>{{ company }}</strong> is the data processor, processing data on the Customer's behalf and under their instructions.</li>
+        <li>{{ company }} is the data controller for data collected directly (e.g., account data for direct sign-ups, platform analytics).</li>
+    </ul>
+    <p>Our Data Processing Agreement (DPA), available at <a href="/legal/dpa" style="color:var(--t-accent-text)">/legal/dpa</a>, sets out the terms of our data processing activities in accordance with GDPR Article 28.</p>
+
+    <h2>9. Your Rights</h2>
+    <p>Depending on your location and applicable law, you may have the following rights regarding your personal data:</p>
+    <ul>
+        <li><strong>Access:</strong> Request a copy of personal data we hold about you.</li>
+        <li><strong>Rectification:</strong> Request correction of inaccurate data.</li>
+        <li><strong>Erasure ("right to be forgotten"):</strong> Request deletion of your personal data, subject to legal retention obligations.</li>
+        <li><strong>Portability:</strong> Request your data in a machine-readable format.</li>
+        <li><strong>Restriction:</strong> Request restriction of processing in certain circumstances.</li>
+        <li><strong>Objection:</strong> Object to processing based on legitimate interests.</li>
+        <li><strong>Withdraw consent:</strong> Where processing is based on consent, withdraw it at any time.</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>. We will respond within 30 days. If you are an employee of a Customer organization, you should direct requests to your organization's administrator first, as they control your data within the platform.</p>
+    <p><strong>CCPA / California Residents:</strong> California residents have additional rights under the California Consumer Privacy Act (CCPA), including the right to know, delete, and opt out of sale of personal information. We do not sell personal information. To exercise CCPA rights, contact <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>.</p>
+
+    <h2>10. Security</h2>
+    <p>We implement appropriate technical and organizational measures to protect personal data, including:</p>
+    <ul>
+        <li>Encryption of connector credentials and API keys using Fernet (AES-128-CBC with HMAC-SHA256)</li>
+        <li>HTTPS-only access enforced via Cloudflare Tunnel</li>
+        <li>HttpOnly and Secure session cookies</li>
+        <li>Server-side session storage (Redis) — sessions are not stored client-side</li>
+        <li>OAuth 2.0 authentication with CSRF state parameter validation</li>
+        <li>Non-root Docker container execution</li>
+        <li>SSRF protection on all outbound HTTP to user-supplied URLs</li>
+        <li>Role-based access control (RBAC) enforced on all endpoints</li>
+        <li>Multi-tenant data isolation — all database queries are scoped by tenant_id</li>
+    </ul>
+    <p>No security system is impenetrable. In the event of a data breach affecting personal data, we will notify affected Customers and relevant supervisory authorities as required by applicable law.</p>
+
+    <h2>11. Cookies</h2>
+    <p>{{ product }} uses one first-party session cookie ("session") to maintain your authenticated session. This cookie is:</p>
+    <ul>
+        <li>HttpOnly (not accessible to JavaScript)</li>
+        <li>Secure (transmitted only over HTTPS)</li>
+        <li>SameSite=Lax (protects against CSRF)</li>
+        <li>Session-scoped (expires after 24 hours of inactivity or on browser close)</li>
+    </ul>
+    <p>We do not use third-party tracking cookies, advertising cookies, or analytics cookies.</p>
+
+    <h2>12. International Data Transfers</h2>
+    <p>{{ company }} is based in the United States. Our sub-processors (Anthropic, OpenAI, Voyage AI, Cloudflare, Resend, ElevenLabs, Twilio, Stripe) are also primarily US-based. If you are located in the European Economic Area (EEA) or United Kingdom, data may be transferred to the United States. We rely on Standard Contractual Clauses (SCCs) or other approved transfer mechanisms for such transfers. Contact us at <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a> for details.</p>
+
+    <h2>13. Children's Privacy</h2>
+    <p>{{ product }} is a B2B enterprise platform not directed at individuals under 18. We do not knowingly collect personal data from minors. If you believe a minor has submitted data, contact us at <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>.</p>
+
+    <h2>14. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Material changes will be communicated to Customer administrators via email at least 14 days before taking effect. The "Effective Date" at the top of this document reflects the date of the most recent update. Continued use of {{ product }} after the effective date constitutes acceptance of the updated policy.</p>
+
+    <h2>15. Contact Us</h2>
+    <p>For privacy-related questions, rights requests, or to report a privacy concern:</p>
+    <ul>
+        <li><strong>Email:</strong> <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a></li>
+        <li><strong>Product:</strong> {{ product }} — {{ app_url }}</li>
+        <li><strong>Company:</strong> {{ company }}</li>
+    </ul>
+
+</div>
+{% endblock %}

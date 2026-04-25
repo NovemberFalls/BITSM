@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BITSM{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           NOVA THEME — Deep Dark
+           Shared design system with reporting engine
+           ============================================================ */
+        :root, [data-theme="dark"] {
+            /* Surfaces */
+            --t-bg: #030508;
+            --t-panel: #0a1018;
+            --t-panel-alt: #121a28;
+            --t-input-bg: #0e1520;
+            --t-hover: #0e1520;
+
+            /* Borders */
+            --t-border: #151e2f;
+            --t-border-light: #1a2a42;
+
+            /* Text */
+            --t-text: #e8ecf2;
+            --t-text-muted: #6a7b94;
+            --t-text-dim: #2e3f58;
+            --t-text-bright: #f3f4f6;
+            --t-text-on-accent: #ffffff;
+
+            /* Accent (Indigo) */
+            --t-accent: #6366f1;
+            --t-accent-hover: #818cf8;
+            --t-accent-text: #818cf8;
+            --t-accent-bg: rgba(99,102,241,0.10);
+            --t-accent-border: rgba(99,102,241,0.20);
+            --t-accent-glow: rgba(99,102,241,0.20);
+
+            /* Multi-Accent Gradient */
+            --t-accent-from: #6366f1;
+            --t-accent-to: #f59e0b;
+            --t-accent-from-h: #818cf8;
+            --t-accent-to-h: #fbbf24;
+
+            /* Nova palette */
+            --nova-1: #6366f1;
+            --nova-2: #06b6d4;
+            --nova-3: #f59e0b;
+
+            /* Status */
+            --t-success: #10b981;
+            --t-error: #ef4444;
+            --t-warning: #f59e0b;
+            --t-info: #06b6d4;
+            --t-purple: #c084fc;
+
+            /* Tables */
+            --t-table-header: #0a1018;
+            --t-table-border: #151e2f;
+            --t-table-text: #6a7b94;
+
+            /* Layout */
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
+            --font: 'Inter', -apple-system, system-ui, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+
+            /* Sidebar */
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 64px;
+            --topbar-height: 52px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
+
+        body {
+            font-family: var(--font);
+            background: var(--t-bg);
+            color: var(--t-text);
+            font-size: 13px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* App shell layout */
+        .nova-app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .nova-sidebar {
+            width: var(--sidebar-collapsed);
+            min-height: 100vh;
+            background: var(--t-panel);
+            border-right: 1px solid var(--t-border);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.2s ease;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .nova-sidebar:hover { width: var(--sidebar-width); }
+
+        .nova-sidebar-brand {
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--t-border);
+            gap: 12px;
+            white-space: nowrap;
+        }
+        .nova-sidebar-brand .brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--nova-1), var(--nova-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+        }
+        .nova-sidebar-brand .brand-text {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--t-text-bright);
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        .nova-sidebar:hover .brand-text { opacity: 1; }
+
+        .nova-sidebar-nav { flex: 1; padding: 8px; }
+
+        .nova-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-xs);
+            color: var(--t-text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            margin-bottom: 2px;
+        }
+        .nova-nav-item:hover { background: var(--t-hover); color: var(--t-text); }
+        .nova-nav-item.active { background: var(--t-accent-bg); color: var(--t-accent-text); }
+
+        .nova-nav-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nova-nav-label {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .nova-sidebar:hover .nova-nav-label { opacity: 1; }
+
+        .nova-nav-section {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--t-text-dim);
+            padding: 16px 12px 6px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        .nova-sidebar:hover .nova-nav-section { opacity: 1; }
+
+        /* Main content */
+        .nova-main {
+            flex: 1;
+            margin-left: var(--sidebar-collapsed);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Topbar */
+        .nova-topbar {
+            height: var(--topbar-height);
+            background: var(--t-panel);
+            border-bottom: 1px solid var(--t-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nova-topbar-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--t-text-bright);
+        }
+        .nova-topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+        /* Content area */
+        .nova-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Common button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: var(--radius-xs);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--t-accent), var(--t-accent-hover));
+            color: var(--t-text-on-accent);
+            border-color: var(--t-accent);
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-ghost {
+            background: transparent;
+            color: var(--t-text-muted);
+            border-color: var(--t-border);
+        }
+        .btn-ghost:hover { background: var(--t-hover); color: var(--t-text); }
+        .btn-danger {
+            background: transparent;
+            color: var(--t-error);
+            border-color: rgba(239,68,68,0.3);
+        }
+        .btn-danger:hover { background: rgba(239,68,68,0.1); }
+
+        /* Badge / pill */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .badge-urgent { background: rgba(239,68,68,0.15); color: var(--t-error); }
+        .badge-high { background: rgba(245,158,11,0.15); color: var(--t-warning); }
+        .badge-medium { background: rgba(99,102,241,0.15); color: var(--t-accent-text); }
+        .badge-low { background: rgba(16,185,129,0.15); color: var(--t-success); }
+
+        .badge-open { background: rgba(6,182,212,0.15); color: var(--t-info); }
+        .badge-in_progress { background: rgba(99,102,241,0.15); color: var(--t-accent-text); }
+        .badge-escalated { background: rgba(239,68,68,0.15); color: var(--t-error); }
+        .badge-resolved { background: rgba(16,185,129,0.15); color: var(--t-success); }
+        .badge-closed { background: rgba(106,123,148,0.15); color: var(--t-text-muted); }
+
+        /* Input */
+        input, select, textarea {
+            background: var(--t-input-bg);
+            border: 1px solid var(--t-border);
+            border-radius: var(--radius-xs);
+            color: var(--t-text);
+            font-family: var(--font);
+            font-size: 13px;
+            padding: 8px 12px;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--t-accent);
+            box-shadow: 0 0 0 2px var(--t-accent-glow);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--t-border-light); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--t-text-dim); }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>

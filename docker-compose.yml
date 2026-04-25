@@ -1,0 +1,67 @@
+services:
+  helpdesk:
+    build: .
+    ports:
+      - "127.0.0.1:5060:5060"
+    volumes:
+      - ./data:/app/data
+      - ./documents:/app/documents
+    # Default for self-hosters: read from .env (cp .env.example .env, fill in keys).
+    # For production deployments where secrets come from a managed secret store
+    # (e.g. Azure Key Vault via systemd ExecStartPre), use docker-compose.prod.yml
+    # to override env_file to a tmpfs-backed path. See docker-compose.prod.yml.
+    env_file: .env
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"    # SOC 2 CC7.2: retain ~500 MB of structured JSON logs
+    depends_on:
+      - postgres
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: helpdesk
+      POSTGRES_USER: ${HELPDESK_PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${HELPDESK_PG_PASSWORD:-postgres}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${HELPDESK_PG_USER:-postgres} -d ${HELPDESK_PG_DATABASE:-helpdesk}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # Caddy removed — Cloudflare Tunnel (cloudflared.service) handles TLS
+  # and routes bitsm.io directly to helpdesk:5060.
+
+volumes:
+  pgdata:
+  redisdata:

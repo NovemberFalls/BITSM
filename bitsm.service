@@ -1,0 +1,24 @@
+[Unit]
+Description=BITSM Helpdesk (docker compose stack)
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/bitsm
+
+# Fetch secrets from Azure Key Vault into tmpfs before starting compose stack.
+# bitsm-fetch-secrets.sh mounts /run/bitsm (tmpfs) and writes /run/bitsm/env (mode 600).
+# Requires system-assigned managed identity with Key Vault Secrets User on your vault.
+ExecStartPre=/usr/local/bin/bitsm-fetch-secrets.sh
+
+ExecStart=/usr/bin/docker compose -f /opt/bitsm/docker-compose.yml up -d --build
+ExecStop=/usr/bin/docker compose -f /opt/bitsm/docker-compose.yml down
+
+# Do not clean up /run/bitsm on stop — secrets are in tmpfs and vanish on reboot.
+# If you need to force a secret refresh without rebooting, run:
+#   sudo /usr/local/bin/bitsm-fetch-secrets.sh && sudo systemctl restart bitsm
+
+[Install]
+WantedBy=multi-user.target

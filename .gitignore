@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+.venv/
+venv/
+
+# Data
+data/
+*.db
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (webapp + email-worker)
+webapp/node_modules/
+webapp/.vite/
+webapp/tsconfig.tsbuildinfo
+email-worker/node_modules/
+
+# Flask sessions
+.flask_sessions/
+
+# Scraped KB source documents (ingested into DB, not needed in repo)
+documents/
+
+# Claude Code local config
+.claude/plans/
+.claude/settings.local.json
+
+# Screenshot dumps (board questions, scraper docs — too large for repo)
+docs/img*.png
+
+# Security/compliance docs (excluded from public repo)
+docs/QA_SOC2.md
+docs/QA_REMAINING.md
+docs/dpa/
+docs/vendor_risk_register.md
+docs/_urgent_provider_dpa_checklist.md
+docs/_urgent_qa_*.md
+
+# Obsidian vault
+.obsidian/
+
+# Reaper cache
+.reaper/
+
+# Vite cache
+.vite/
+
+# Source maps — not shipped publicly
+static/app-dist/*.map

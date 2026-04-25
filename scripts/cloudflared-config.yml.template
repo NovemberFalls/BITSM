@@ -1,0 +1,14 @@
+# Cloudflare Tunnel config for BITSM (bitsm.io)
+# Deploy to: /etc/cloudflared/config.yml on Azure VM
+# Replace <TUNNEL_ID> with the ID output from: cloudflared tunnel create bitsm
+
+tunnel: <TUNNEL_ID>
+credentials-file: /root/.cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: bitsm.io
+    service: http://localhost:5060
+  - hostname: www.bitsm.io
+    service: http://localhost:5060
+  # Catch-all — must be last
+  - service: http_status:404

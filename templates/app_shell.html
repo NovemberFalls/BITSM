@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Helpdesk{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/app-dist/index.css">
+<style>
+    .nova-content { padding: 0 !important; overflow: hidden !important; position: relative !important; }
+    #app-root { position: absolute; inset: 0; overflow: hidden; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="app-root"></div>
+<script>
+    window.__APP_CONFIG__ = {{ app_config | safe }};
+</script>
+<script type="module" src="/static/app-dist/index.js"></script>
+{% endblock %}

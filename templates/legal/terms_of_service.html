@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+{% block title %}Terms of Service — {{ product }}{% endblock %}
+{% block head %}
+<style>
+.legal-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    color: var(--t-text);
+}
+.legal-header {
+    border-bottom: 1px solid var(--t-border);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+.legal-header .product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t-accent-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+.legal-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--t-text-bright);
+    margin-bottom: 8px;
+}
+.legal-header .effective-date {
+    font-size: 13px;
+    color: var(--t-text-muted);
+}
+.legal-draft-banner {
+    background: rgba(245,158,11,0.10);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    font-size: 12px;
+    color: var(--t-warning);
+    line-height: 1.6;
+}
+h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--t-text-bright);
+    margin: 32px 0 12px;
+}
+h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t-text);
+    margin: 20px 0 8px;
+}
+p, li {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--t-text);
+    margin-bottom: 10px;
+}
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+}
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+}
+.legal-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--t-panel-alt);
+    color: var(--t-text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--t-border);
+}
+.legal-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--t-border);
+    color: var(--t-text);
+    vertical-align: top;
+}
+.legal-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.legal-nav a {
+    font-size: 12px;
+    color: var(--t-text-muted);
+    text-decoration: none;
+    padding: 4px 8px;
+    border: 1px solid var(--t-border);
+    border-radius: var(--radius-xs);
+}
+.legal-nav a:hover { color: var(--t-text); border-color: var(--t-border-light); }
+.legal-nav a.active { color: var(--t-accent-text); border-color: var(--t-accent-border); }
+.caps {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.7;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div class="legal-page">
+
+    <div class="legal-nav">
+        <a href="/legal/privacy">Privacy Policy</a>
+        <a href="/legal/terms" class="active">Terms of Service</a>
+        <a href="/legal/dpa">Data Processing Agreement</a>
+        <a href="/">← Back to {{ product }}</a>
+    </div>
+
+    <div class="legal-header">
+        <div class="product-name">{{ company }} · {{ product }}</div>
+        <h1>Terms of Service</h1>
+        <div class="effective-date">Effective Date: March 24, 2026 &nbsp;·&nbsp; Version 1.0 (Draft — pending attorney review)</div>
+    </div>
+
+    <div class="legal-draft-banner">
+        <strong>DRAFT — Pending Attorney Review.</strong> This document has been prepared as a working draft and will be reviewed and finalized by qualified legal counsel before {{ product }} is made generally available.
+    </div>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>These Terms of Service ("Terms") constitute a legally binding agreement between <strong>{{ company }}</strong> ("{{ company }}," "we," "us," or "our") and the organization or individual ("Customer," "you," or "your") accessing or using <strong>{{ product }} — Boord Information Technology Service Management</strong> ("the Service").</p>
+    <p>By accessing or using the Service, creating an account, or clicking "I Agree," you agree to be bound by these Terms and our Privacy Policy (<a href="/legal/privacy" style="color:var(--t-accent-text)">/legal/privacy</a>). If you are accepting on behalf of an organization, you represent that you have the authority to bind that organization.</p>
+    <p>If you do not agree to these Terms, do not access or use the Service.</p>
+
+    <h2>2. Definitions</h2>
+    <ul>
+        <li><strong>"Service"</strong> means the {{ product }} platform, including all features, APIs, and associated documentation.</li>
+        <li><strong>"Customer"</strong> means the organization subscribing to and administering the Service.</li>
+        <li><strong>"User"</strong> means any individual authorized by the Customer to access the Service, including administrators, agents, and end users.</li>
+        <li><strong>"Customer Data"</strong> means all data submitted to the Service by or on behalf of Customer.</li>
+        <li><strong>"Atlas"</strong> means the AI assistant embedded in the Service.</li>
+        <li><strong>"Subscription"</strong> means the plan tier and associated rights purchased by Customer.</li>
+        <li><strong>"BYOK"</strong> means Bring Your Own Key — the Enterprise plan option where Customer supplies their own third-party AI API keys.</li>
+    </ul>
+
+    <h2>3. Service Description</h2>
+    <p>{{ product }} is a multi-tenant AI-powered IT helpdesk and ticketing platform. The Service includes:</p>
+    <ul>
+        <li>Ticket management and lifecycle tracking</li>
+        <li>Atlas AI assistant for ticket triage, routing, and resolution support</li>
+        <li>Knowledge base with AI-powered search and retrieval (RAG)</li>
+        <li>Customer-facing portal for end users</li>
+        <li>Reporting, analytics, and audit capabilities</li>
+        <li>Automation workflows</li>
+        <li>Multi-provider AI integration (Anthropic, OpenAI) with optional BYOK</li>
+    </ul>
+
+    <h2>4. Subscriptions and Pricing</h2>
+
+    <h3>4.1 Plan Tiers</h3>
+    <table class="legal-table">
+        <tr>
+            <th>Tier</th>
+            <th>Seat Price</th>
+            <th>AI Credits / User / Month</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Free</td>
+            <td>$0</td>
+            <td>$0 (AI-blocked)</td>
+            <td>Limited platform access; AI features disabled. Landing tier after Trial expires without conversion.</td>
+        </tr>
+        <tr>
+            <td>Trial</td>
+            <td>$0</td>
+            <td>$15 / user</td>
+            <td>Full Starter-level access for evaluation. Converts to paid or drops to Free.</td>
+        </tr>
+        <tr>
+            <td>Starter</td>
+            <td>$50 / user / mo</td>
+            <td>$15 / user</td>
+            <td>Entry paid tier. Approximately 500 AI interactions per user per month.</td>
+        </tr>
+        <tr>
+            <td>Pro</td>
+            <td>$100 / user / mo</td>
+            <td>$30 / user</td>
+            <td>Mid-market. Higher AI throughput.</td>
+        </tr>
+        <tr>
+            <td>Business</td>
+            <td>$150 / user / mo</td>
+            <td>$45 / user</td>
+            <td>Team scale. Full feature access.</td>
+        </tr>
+        <tr>
+            <td>Enterprise BYOK</td>
+            <td>$100 / user / mo (flat)</td>
+            <td>Unlimited (Customer's own keys)</td>
+            <td>Customer provides Anthropic/OpenAI/Voyage API keys. Zero AI cost of goods to {{ company }}.</td>
+        </tr>
+    </table>
+
+    <h3>4.2 API Usage Caps</h3>
+    <p>Paid tiers (Starter, Pro, Business) include a monthly AI API credit allocation per active user, as specified in the table above. Usage is tracked in aggregate per tenant. When the monthly cap is reached, Atlas AI features are suspended until the start of the next billing month. Caps reset on the first day of each calendar month.</p>
+
+    <h3>4.3 BYOK Enterprise</h3>
+    <p>Enterprise customers who provide their own AI API keys are subject to unlimited AI usage within the platform. The Customer is solely responsible for all costs incurred with their chosen AI providers. {{ company }}'s obligation is limited to providing the platform for $100/user/month.</p>
+
+    <h3>4.4 Payment Terms</h3>
+    <p>Invoices are issued monthly in advance. Payment is due within 30 days of the invoice date. Late payments may result in service suspension. All prices are in USD and exclusive of applicable taxes.</p>
+
+    <h3>4.5 Overages and Upgrades</h3>
+    <p>{{ company }} does not automatically charge for AI overages beyond the included tier cap. When a cap is reached, AI features are suspended rather than over-charged. Customers may upgrade their plan tier at any time to increase their cap.</p>
+
+    <h2>5. Acceptable Use</h2>
+
+    <h3>5.1 Permitted Use</h3>
+    <p>The Service is licensed for Customer's internal business operations, including managing IT support requests, knowledge bases, and agent workflows for the Customer's organization and its authorized end users.</p>
+
+    <h3>5.2 Prohibited Use</h3>
+    <p>You may not use the Service to:</p>
+    <ul>
+        <li>Violate any applicable law or regulation</li>
+        <li>Process data that you are not authorized to process</li>
+        <li>Submit personal data of minors under 18</li>
+        <li>Upload or transmit malicious code, viruses, or harmful content</li>
+        <li>Attempt to gain unauthorized access to the Service or other tenants' data</li>
+        <li>Probe, scan, or test the vulnerability of the Service without prior written authorization from {{ company }}</li>
+        <li>Reverse engineer, decompile, or disassemble the Service</li>
+        <li>Resell or sublicense access to the Service to third parties without written consent</li>
+        <li>Use the AI features to generate illegal content, harassment, or harmful material</li>
+        <li>Circumvent, disable, or otherwise interfere with security features</li>
+        <li>Send unsolicited commercial messages via the Service</li>
+    </ul>
+
+    <h2>6. Customer Data and Intellectual Property</h2>
+
+    <h3>6.1 Customer Data Ownership</h3>
+    <p>Customer retains all rights, title, and interest in and to Customer Data. {{ company }} claims no ownership over Customer Data.</p>
+
+    <h3>6.2 License to Process Customer Data</h3>
+    <p>Customer grants {{ company }} a limited, non-exclusive, worldwide license to process, store, transmit, and display Customer Data solely for the purpose of providing the Service and as described in the Privacy Policy.</p>
+
+    <h3>6.3 {{ company }} Intellectual Property</h3>
+    <p>{{ company }} owns all rights in the Service, including the Atlas AI engine, the {{ product }} platform, all software, algorithms, models, documentation, and derived analytics. Nothing in these Terms transfers any {{ company }} intellectual property to Customer.</p>
+
+    <h3>6.4 AI-Generated Output</h3>
+    <p>AI-generated suggestions, triage notes, audit scores, and recommendations produced by Atlas are provided as informational tools only. Customer is responsible for all decisions made based on AI-generated output. {{ company }} does not warrant the accuracy, completeness, or fitness for purpose of any AI-generated output.</p>
+
+    <h3>6.5 Feedback</h3>
+    <p>If Customer provides feedback or suggestions about the Service, {{ company }} may use that feedback without restriction and without obligation to Customer.</p>
+
+    <h2>7. Confidentiality</h2>
+    <p>Each party agrees to protect the other's Confidential Information with at least the same degree of care used to protect its own confidential information, but not less than reasonable care. "Confidential Information" includes non-public business, technical, or financial information disclosed by one party to the other in connection with the Service. This obligation does not apply to information that is publicly known, independently developed, or required to be disclosed by law.</p>
+
+    <h2>8. Representations and Warranties</h2>
+
+    <h3>8.1 Customer Representations</h3>
+    <p>Customer represents and warrants that: (a) it has the legal authority to enter into these Terms; (b) Customer Data does not infringe any third-party intellectual property rights; (c) Customer has obtained all necessary consents and authorizations to submit Customer Data to the Service; (d) use of the Service will comply with all applicable laws.</p>
+
+    <h3>8.2 {{ company }} Representations</h3>
+    <p>{{ company }} warrants that: (a) the Service will perform materially in accordance with its documentation; (b) {{ company }} will implement commercially reasonable security measures; (c) {{ company }} will not intentionally introduce malicious code into the Service.</p>
+
+    <h3>8.3 Disclaimer</h3>
+    <p class="caps">Except as expressly stated in Section 8.2, the Service is provided "as is" and "as available" without warranty of any kind. {{ company }} disclaims all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement. {{ company }} does not warrant that the Service will be uninterrupted, error-free, or free of security vulnerabilities.</p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p class="caps">To the maximum extent permitted by applicable law, {{ company }}'s total liability to Customer for any claim arising out of or relating to these Terms or the Service shall not exceed the amounts paid by Customer to {{ company }} in the twelve (12) months preceding the claim.</p>
+    <p class="caps">In no event shall {{ company }} be liable for any indirect, incidental, special, exemplary, consequential, or punitive damages, including loss of profits, data, goodwill, or business opportunity, even if {{ company }} has been advised of the possibility of such damages.</p>
+    <p class="caps">These limitations apply regardless of the legal theory (contract, tort, strict liability, or otherwise) and even if any limited remedy fails of its essential purpose.</p>
+
+    <h2>10. Indemnification</h2>
+    <p>Customer will indemnify, defend, and hold harmless {{ company }} and its officers, directors, employees, and agents from and against any claims, damages, losses, and expenses (including reasonable legal fees) arising out of or relating to: (a) Customer's use of the Service in violation of these Terms; (b) Customer Data infringing third-party rights; (c) Customer's violation of any applicable law.</p>
+
+    <h2>11. Term and Termination</h2>
+
+    <h3>11.1 Term</h3>
+    <p>These Terms commence on the date Customer first accesses the Service and continue until terminated.</p>
+
+    <h3>11.2 Termination by Customer</h3>
+    <p>Customer may terminate its Subscription at any time by providing 30 days written notice. No refunds are provided for prepaid periods.</p>
+
+    <h3>11.3 Termination by {{ company }}</h3>
+    <p>{{ company }} may suspend or terminate the Service immediately if: (a) Customer materially breaches these Terms and fails to cure within 10 days of notice; (b) Customer fails to pay invoices within 60 days; (c) {{ company }} reasonably determines that Customer's use poses a security risk to other Customers.</p>
+
+    <h3>11.4 Effect of Termination</h3>
+    <p>Upon termination, {{ company }} will provide Customer with a 30-day window to export Customer Data. After 30 days, Customer Data will be deleted in accordance with the Privacy Policy. All licenses granted under these Terms will terminate. Sections that by their nature should survive (including Sections 6, 7, 9, 10, 12) will survive termination.</p>
+
+    <h2>12. Dispute Resolution</h2>
+    <p>The parties will attempt to resolve disputes informally by notifying the other party in writing. If a dispute is not resolved within 30 days, either party may pursue resolution through binding arbitration under the American Arbitration Association Commercial Arbitration Rules. Nothing prevents either party from seeking emergency injunctive relief in a court of competent jurisdiction.</p>
+    <p>These Terms are governed by the laws of the state in which {{ company }} is incorporated, without regard to conflict of laws principles. Any arbitration or court proceeding will take place in {{ company }}'s principal place of business.</p>
+
+    <h2>13. General Provisions</h2>
+    <ul>
+        <li><strong>Entire Agreement:</strong> These Terms, together with the Privacy Policy and any executed Order Form, constitute the entire agreement between the parties regarding the Service.</li>
+        <li><strong>Modifications:</strong> {{ company }} may update these Terms from time to time. Material changes will be communicated to Customer administrators by email at least 14 days before taking effect. Continued use of the Service after the effective date constitutes acceptance.</li>
+        <li><strong>Severability:</strong> If any provision of these Terms is held unenforceable, that provision will be modified to the minimum extent necessary, and the remaining provisions will continue in full force.</li>
+        <li><strong>Waiver:</strong> Failure to enforce any provision of these Terms does not constitute a waiver of future enforcement.</li>
+        <li><strong>Assignment:</strong> Customer may not assign these Terms without {{ company }}'s prior written consent. {{ company }} may assign these Terms in connection with a merger, acquisition, or sale of assets.</li>
+        <li><strong>Force Majeure:</strong> Neither party is liable for delays or failures caused by circumstances beyond their reasonable control.</li>
+        <li><strong>Notices:</strong> Notices to {{ company }} should be sent to <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a>. Notices to Customer will be sent to the email address on file.</li>
+    </ul>
+
+    <h2>14. Contact</h2>
+    <p>For questions about these Terms:</p>
+    <ul>
+        <li><strong>Email:</strong> <a href="mailto:{{ contact_email }}" style="color:var(--t-accent-text)">{{ contact_email }}</a></li>
+        <li><strong>Product:</strong> {{ product }} — {{ app_url }}</li>
+        <li><strong>Company:</strong> {{ company }}</li>
+    </ul>
+
+</div>
+{% endblock %}

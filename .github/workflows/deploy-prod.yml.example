@@ -1,0 +1,102 @@
+name: Deploy BITSM to Production (bitsm.io)
+
+# NOTE: This workflow is configured for the primary bitsm.io deployment on Azure.
+# Forks must update the Azure resource group, VM name, and configure matching
+# OIDC credentials (AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID)
+# in their repository secrets before this workflow will succeed.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write   # required for OIDC federated credential exchange
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Azure VM
+    runs-on: ubuntu-latest
+    environment: production  # requires manual approval gate in GitHub repo settings
+    env:
+      # Opt into Node 24 for JS actions now rather than waiting for GitHub's
+      # forced cutover on 2026-06-02 (deprecation of Node 20 runners).
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy via VM Run Command
+        run: |
+          az vm run-command invoke \
+            --resource-group <YOUR-RESOURCE-GROUP> \
+            --name <YOUR-VM-NAME> \
+            --command-id RunShellScript \
+            --scripts '
+              set -e
+
+              echo "[deploy] Pulling latest code..."
+              sudo -u deploy git -C /opt/bitsm fetch origin main
+              sudo -u deploy git -C /opt/bitsm reset --hard origin/main
+
+              echo "[deploy] Building frontend..."
+              sudo -u deploy bash -c "cd /opt/bitsm/webapp && npm ci && npm run build"
+
+              echo "[deploy] Applying pending migrations..."
+              sudo -u deploy bash /opt/bitsm/scripts/migrate.sh
+
+              # Install fetch-secrets.sh and the bitsm.service systemd unit.
+              # fetch-secrets.sh pulls secrets from Key Vault into /run/bitsm/env (tmpfs).
+              # bitsm.service wraps docker compose with ExecStartPre=bitsm-fetch-secrets.sh.
+              echo "[deploy] Installing fetch-secrets.sh..."
+              sudo cp /opt/bitsm/scripts/fetch-secrets.sh /usr/local/bin/bitsm-fetch-secrets.sh
+              sudo chown root:root /usr/local/bin/bitsm-fetch-secrets.sh
+              sudo chmod 750 /usr/local/bin/bitsm-fetch-secrets.sh
+
+              echo "[deploy] Installing bitsm.service systemd unit..."
+              sudo cp /opt/bitsm/bitsm.service /etc/systemd/system/bitsm.service
+              sudo systemctl daemon-reload
+              sudo systemctl enable bitsm
+
+              echo "[deploy] Restarting BITSM service (triggers ExecStartPre fetch-secrets, then compose up)..."
+              # systemctl restart bitsm triggers ExecStartPre=/usr/local/bin/bitsm-fetch-secrets.sh,
+              # which fetches all secrets from <YOUR-KEY-VAULT> into /run/bitsm/env (tmpfs) before the
+              # compose stack starts.
+              sudo systemctl restart bitsm
+
+              echo "[deploy] Health check..."
+              HEALTHY=0
+              for i in 1 2 3 4 5; do
+                sleep 6
+                if curl -sf http://localhost:5060/api/webhooks/health > /dev/null; then
+                  echo "[deploy] Health check passed on attempt $i"
+                  HEALTHY=1
+                  break
+                fi
+                echo "[deploy] Attempt $i failed, retrying..."
+              done
+              if [ "$HEALTHY" != "1" ]; then
+                echo "[deploy] ERROR: Health check failed after 5 attempts"
+                sudo -u deploy docker compose -f /opt/bitsm/docker-compose.yml logs --tail=50 helpdesk
+                exit 1
+              fi
+
+              # Post-deploy smoke: probe every service-bearing secret against its
+              # live provider. Catches stale KV values that /api/webhooks/health cannot see.
+              echo "[deploy] Running provider smoke test..."
+              if ! sudo bash /opt/bitsm/scripts/smoke-post-rotation.sh; then
+                echo "[deploy] ERROR: Provider smoke test failed — at least one secret is stale or invalid"
+                sudo -u deploy docker compose -f /opt/bitsm/docker-compose.yml logs --tail=100 helpdesk
+                exit 1
+              fi
+              echo "[deploy] Smoke test passed — all providers reachable"
+            '
